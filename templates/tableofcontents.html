@@ -1,0 +1,17 @@
+<html lang="en">
+    <head> 
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h2>List of Boards</h2>
+    </body>
+    <body>
+        <table>
+        {% for key in data %}
+            <tr><a href="{{ key }}">{{ key }}</a></tr>
+            <!-- Fix the link later. It should be linking to the board page.-->
+            <br>
+        {% endfor %}
+        </table>
+    </body>
+</html>
