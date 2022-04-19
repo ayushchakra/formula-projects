@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CSV File to HTML Table</title>
+    </head>
+    <body>
+        <script>
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                    if (xmlhttp.status == 200) {
+                        var table_container = document.getElementById('table-container');
+                        csv_string_to_table(xmlhttp.responseText, table_container);
+                    }
+                }
+            };
+            xmlhttp.open("GET", "https://oem-outline.nyc3.digitaloceanspaces.com/kicad-artifacts/vehicle/mkv/hardware/service_section_controller/service_section_controller.csv", true);
+            xmlhttp.send()
+            function csv_string_to_table(csv_string, element_to_insert_table) {
+                var table = ''
+                table += '<table>';
+                table += '<tr><h>Hi</h></tr>'
+                table += '</table>';
+
+                element_to_insert_table.innerHTML += table;
+            }
+        </script>
+    </body>
+</html>
