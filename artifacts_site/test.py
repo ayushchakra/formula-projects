@@ -54,16 +54,22 @@ def TableOfContents():
             schematic_link = "https://oem-outline.nyc3.digitaloceanspaces.com/kicad-artifacts/" + buildable_list[current_board_counter+1].replace(":", "/")[2:]
             bom_link = "https://oem-outline.nyc3.digitaloceanspaces.com/kicad-artifacts/" + buildable_list[current_board_counter].replace(":", "/")[2:]
 
+            layout_path = f'../..{current_board_name}/{commit_number}/{buildable_list[current_board_counter+2].replace(":", "/")[2:].split("/")[-1]}'
+            schematic_path = f'{current_board_name}/{commit_number}/{buildable_list[current_board_counter+1].replace(":", "/")[2:].split("/")[-1]}'
+            bom_path = f'{current_board_name}/{commit_number}/{buildable_list[current_board_counter].replace(":", "/")[2:].split("/")[-1]}'
+
             if not os.path.isdir(current_board_name):
                 os.mkdir(current_board_name)
             board_file_path = f'{current_board_name}/{commit_number}/'
             if not os.path.isdir(board_file_path):
                 os.mkdir(board_file_path)
-            image_filename = wget.download(layout_link)
+            wget.download(layout_link, board_file_path)
+            wget.download(schematic_link, board_file_path)
+            wget.download(bom_link, board_file_path)
 
             with sqlite3.connect("database.db") as con:
                 cur = con.cursor()
-                cur.execute("INSERT INTO kicad_artifacts (board_name,commits,schematic,layout,bom) VALUES (?,?,?,?,?)",(current_board_name,commit_number,schematic_link,layout_link,bom_link))
+                cur.execute("INSERT INTO kicad_artifacts (board_name,commits,schematic,layout,bom) VALUES (?,?,?,?,?)",(current_board_name,commit_number,schematic_path,layout_path,bom_path))
                 con.commit()
             current_board_counter += 5
         con.row_factory = sqlite3.Row
